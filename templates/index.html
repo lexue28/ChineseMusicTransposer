@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Home</title>
+    <style type="text/css">
+        body { background: rgb(192, 200, 249) !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+     </style>
+</head>
+<body>
+    <div class = "container">
+        <div class = "row">
+            <div class = "col">
+                <div class = 'submitButtonsContainer'>
+                    <h1>
+                        Chinese Music Notes Transposer
+                    </h1>
+                    <h3>华语音乐音符转调器</h3>
+                    <h5>
+                        By Linda Xue (薛思昀), member of the <a href="http://youthbcma.us/">Boston Chinese Musicians Association</a>
+                              
+                    </h5>
+                    <p>
+                        <a class="btn btn-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Instructions/使用说明
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            This transposer can switch between letter notation/diatonic and numbered notation/jianpu/这个音符转调器可用于简谱与五线谱之间转换.<br></br>
+                            Please leave a space between notes/请在音符之间留一个空格. <br></br>
+                            Letter Notes Example/五线谱音符示例: A B C <br></br>
+                            Number Notes Example/简谱音符示例: 1 2 3 <br></br>
+                            Valid Music Keys to Input/有效的音乐调性输入: C, G, D, A, E, F, B♭, E♭, A♭, C♭, B, G♭, F#, D♭, C# <br></br>
+                            Valid Numbers to Input/有效的数字输入: 1-7
+                        </div>
+                    </div>
+                    <div class= "container">
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class = "alert alert-warning alert-dismissible fade show" role = "alert">
+                            <span> {{ message }}</span>
+                            <button type = "button" class = "close" data-dismiss = "alert" aria-label="Close">
+                                <span aria-hidden = "true">&times;</span>
+                            </button>
+                        </div>
+                        {% endfor %}
+                        
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    <main>
+                        {% block main %}{% endblock %}
+                    </main>
+                    <h3>Convert Notes from Letters to Numbers/五线谱转为简谱</h3>
+                    <form method="post">
+                      Letter Notes/五线谱: <textarea name = "letterNotes" class="form-control" rows="3"></textarea>
+                      <!-- Key（调）: <input name="currentKey"/> --> 
+                      <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupSelect01">Key （调）</label>
+                        <select name = "currentKey" class="form-select" id="inputGroupSelect01">
+                          <option selected>Choose music key/选调...</option>
+                          <option value="C">C</option>
+                          <option value="G">G</option>
+                          <option value="D">D</option>
+                          <option value="A">A</option>
+                          <option value="E">E</option>
+                          <option value="F">F</option>
+                          <option value="B♭">B♭</option>
+                          <option value="E♭">E♭</option>
+                          <option value="A♭">A♭</option>
+                          <option value="C♭">C♭</option>
+                          <option value="B">B</option>
+                          <option value="G♭">G♭</option>
+                          <option value="F#">F#</option>
+                          <option value="D♭">D♭</option>
+                          <option value="C#">C#</option>
+                        </select>
+                      </div>
+                      <br/><br/>
+                      <a href=# id=convertLtoN><button class="btn btn-primary" name = "convertButtonLtoN">Convert Notes/转为简谱</button></a>
+                    </form>
+                    <br/><br/>
+                    <h3>Convert Notes from Numbers to Letters/简谱转为五线谱</h3>
+                    <form method="post">
+                        Number Notes/简谱: <textarea name = "numberNotes" class="form-control" rows="3"></textarea>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupSelect01">Key （调）</label>
+                            <select name = "currentKey" class="form-select" id="inputGroupSelect01">
+                              <option selected>Choose music key/选调...</option>
+                              <option value="C">C</option>
+                              <option value="G">G</option>
+                              <option value="D">D</option>
+                              <option value="A">A</option>
+                              <option value="E">E</option>
+                              <option value="F">F</option>
+                              <option value="B♭">B♭</option>
+                              <option value="E♭">E♭</option>
+                              <option value="A♭">A♭</option>
+                              <option value="C♭">C♭</option>
+                              <option value="B">B</option>
+                              <option value="G♭">G♭</option>
+                              <option value="F#">F#</option>
+                              <option value="D♭">D♭</option>
+                              <option value="C#">C#</option>
+                            </select>
+                        </div>
+                        <br/><br/>
+                        <a href=# id=convertNtoL><button class="btn btn-primary" name = "convertButtonNtoL">Convert Notes/转为五线谱</button></a>
+                    </form>
+                    <br/><br/>
+                    <h3>Transpose Number Notes to Number Notes/简谱换调</h3>
+                    <form method="post">
+                        Number Notes/简谱: <textarea name = "numberNotes" class="form-control" rows="3"></textarea>
+                        <!--Starting Key（原始调）: <input name="startKey"/>-->
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupSelect01">Starting Key（原始调）</label>
+                            <select name = "startKey" class="form-select" id="inputGroupSelect01">
+                              <option selected>Choose music key/选调...</option>
+                              <option value="C">C</option>
+                              <option value="G">G</option>
+                              <option value="D">D</option>
+                              <option value="A">A</option>
+                              <option value="E">E</option>
+                              <option value="F">F</option>
+                              <option value="B♭">B♭</option>
+                              <option value="E♭">E♭</option>
+                              <option value="A♭">A♭</option>
+                              <option value="C♭">C♭</option>
+                              <option value="B">B</option>
+                              <option value="G♭">G♭</option>
+                              <option value="F#">F#</option>
+                              <option value="D♭">D♭</option>
+                              <option value="C#">C#</option>
+                            </select>
+                        </div>
+                        <!--End Key （目标调）: <input name="endKey"/>-->
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGroupSelect01">End Key （目标调）:</label>
+                            <select name = "endKey" class="form-select" id="inputGroupSelect01">
+                              <option selected>Choose music key/选调...</option>
+                              <option value="C">C</option>
+                              <option value="G">G</option>
+                              <option value="D">D</option>
+                              <option value="A">A</option>
+                              <option value="E">E</option>
+                              <option value="F">F</option>
+                              <option value="B♭">B♭</option>
+                              <option value="E♭">E♭</option>
+                              <option value="A♭">A♭</option>
+                              <option value="C♭">C♭</option>
+                              <option value="B">B</option>
+                              <option value="G♭">G♭</option>
+                              <option value="F#">F#</option>
+                              <option value="D♭">D♭</option>
+                              <option value="C#">C#</option>
+                            </select>
+                        </div>
+                        <br/><br/>
+                        <a href=# id=transposing><button class="btn btn-primary" name = "transposeButton">Transpose Notes/换调</button></a>
+                    </form>
+                </div>
+            </div>
+            <div class = "col-sm-">
+                <br></br>
+                <h3>Video Tutorial/视频使用说明</h3>
+                <br></br>
+                <h5>English Tutorial/英文使用说明</h5>
+                <video width="400" height="300" controls="controls">
+                    <source src={{ url_for('static', filename="EnglishTransposerTutorial.mp4") }} type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <br></br>
+                <h5>Chinese Tutorial/中文使用说明</h5>
+                <video width="400" height="300" controls="controls">
+                    <source src={{ url_for('static', filename="ChineseTransposerTutorial.mp4") }} type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
