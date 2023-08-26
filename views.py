@@ -175,7 +175,7 @@ def transposeNumbers():
         flash("Please input only numbers (1-7), # or ♭ also accepted")
         return redirect(url_for("views.home")) 
     
-    filename = "ChineseMusicTransposer\static\keySignatures.csv" 
+    filename = "static/keySignatures.csv" 
     keySignatures = pd.read_csv(filename, header=0)
 
     # create conversion charts
@@ -248,7 +248,7 @@ def convertNtoL():
     if any(c.isalpha() for c in numberNotesString):
         flash("Please input only numbers (1-7), # or ♭ also accepted")
         return redirect(url_for("views.home")) 
-    filename = "ChineseMusicTransposer\static\keySignatures.csv" 
+    filename = "static/keySignatures.csv" 
     keySignatures = pd.read_csv(filename, header=0)
     
     convertedNotes = []
