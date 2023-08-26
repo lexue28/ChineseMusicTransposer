@@ -115,7 +115,7 @@ def convertLtoN():
         flash("Please input only valid letters, # or ♭ also accepted")
         return redirect(url_for("views.home")) 
     
-    filename = "ChineseMusicTransposer\static\keySignatures.csv" 
+    filename = "static/keySignatures.csv" 
     keySignatures = pd.read_csv(filename, header=0)
     
     convertedNotes = []
